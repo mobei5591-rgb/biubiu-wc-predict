@@ -1,0 +1,167 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "biubiu陪我看球" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img [ref=e6]
+        - generic [ref=e17]: biubiu陪我看球
+      - navigation [ref=e18]:
+        - link "首页" [ref=e19] [cursor=pointer]:
+          - /url: /
+        - link "积分" [ref=e20] [cursor=pointer]:
+          - /url: /standings.html
+        - link "VIP" [ref=e21] [cursor=pointer]:
+          - /url: /subscribe.html
+        - link "登录" [ref=e22] [cursor=pointer]:
+          - /url: /login.html
+        - button "🎁 签到" [ref=e23] [cursor=pointer]
+        - generic [ref=e24]: ⭐ 48
+        - button "👤" [ref=e25] [cursor=pointer]
+  - main [ref=e26]:
+    - generic [ref=e27]:
+      - heading "biubiu 陪我看世界杯" [level=1] [ref=e28]:
+        - img [ref=e30]
+        - generic [ref=e60]: biubiu 陪我看世界杯
+      - paragraph [ref=e61]: 00后阿白 × AI搭子biubiu｜都不懂球｜但偏要赌
+      - generic [ref=e62]:
+        - generic [ref=e63]: 07天
+        - generic [ref=e64]: 01时
+        - generic [ref=e65]: 10分
+        - generic [ref=e66]: 15秒
+    - heading "🔥 赛事预告" [level=2] [ref=e67]:
+      - generic [ref=e68]: 🔥
+      - text: 赛事预告
+    - generic [ref=e70] [cursor=pointer]:
+      - generic [ref=e71]:
+        - generic [ref=e72]: 🔥 下一场比赛
+        - generic [ref=e73]: A组
+        - generic [ref=e75]: 8天后开赛
+      - generic [ref=e76]:
+        - generic [ref=e77]:
+          - img "加拿大" [ref=e78]
+          - generic [ref=e79]: 加拿大
+          - generic [ref=e80]: "FIFA #33"
+        - generic [ref=e81]: VS
+        - generic [ref=e82]:
+          - img "伊朗" [ref=e83]
+          - generic [ref=e84]: 伊朗
+          - generic [ref=e85]: "FIFA #32"
+      - generic [ref=e91]:
+        - generic [ref=e92]: 主胜 35%
+        - generic [ref=e93]: 平 34%
+        - generic [ref=e94]: 客胜 31%
+      - generic [ref=e95]: 🤖 排名接近，加拿大主场有优势
+    - heading "🔮 即将开赛" [level=2] [ref=e96]:
+      - generic [ref=e97]: 🔮
+      - text: 即将开赛
+    - generic [ref=e98]:
+      - generic [ref=e99] [cursor=pointer]:
+        - generic [ref=e100]:
+          - generic [ref=e101]: 2026-06-12
+          - generic [ref=e102]: B组
+          - generic [ref=e103]: Los Angeles
+        - generic [ref=e104]:
+          - generic [ref=e105]:
+            - img "法国" [ref=e106]
+            - generic [ref=e107]: 法国
+            - generic [ref=e108]: France
+            - generic [ref=e109]: "FIFA #2"
+          - generic [ref=e110]: VS
+          - generic [ref=e111]:
+            - img "布基纳法索" [ref=e112]
+            - generic [ref=e113]: 布基纳法索
+            - generic [ref=e114]: Burkina Faso
+            - generic [ref=e115]: "FIFA #40"
+      - generic [ref=e116] [cursor=pointer]:
+        - generic [ref=e117]:
+          - generic [ref=e118]: 2026-06-12
+          - generic [ref=e119]: B组
+          - generic [ref=e120]: San Francisco
+        - generic [ref=e121]:
+          - generic [ref=e122]:
+            - img "乌克兰" [ref=e123]
+            - generic [ref=e124]: 乌克兰
+            - generic [ref=e125]: Ukraine
+            - generic [ref=e126]: "FIFA #34"
+          - generic [ref=e127]: VS
+          - generic [ref=e128]:
+            - img "新西兰" [ref=e129]
+            - generic [ref=e130]: 新西兰
+            - generic [ref=e131]: New Zealand
+            - generic [ref=e132]: "FIFA #43"
+      - generic [ref=e133] [cursor=pointer]:
+        - generic [ref=e134]:
+          - generic [ref=e135]: 2026-06-12
+          - generic [ref=e136]: C组
+          - generic [ref=e137]: Miami
+        - generic [ref=e138]:
+          - generic [ref=e139]:
+            - img "巴西" [ref=e140]
+            - generic [ref=e141]: 巴西
+            - generic [ref=e142]: Brazil
+            - generic [ref=e143]: "FIFA #3"
+          - generic [ref=e144]: VS
+          - generic [ref=e145]:
+            - img "南非" [ref=e146]
+            - generic [ref=e147]: 南非
+            - generic [ref=e148]: South Africa
+            - generic [ref=e149]: "FIFA #37"
+      - generic [ref=e150] [cursor=pointer]:
+        - generic [ref=e151]:
+          - generic [ref=e152]: 2026-06-13
+          - generic [ref=e153]: C组
+          - generic [ref=e154]: Dallas
+        - generic [ref=e155]:
+          - generic [ref=e156]:
+            - img "瑞典" [ref=e157]
+            - generic [ref=e158]: 瑞典
+            - generic [ref=e159]: Sweden
+            - generic [ref=e160]: "FIFA #23"
+          - generic [ref=e161]: VS
+          - generic [ref=e162]:
+            - img "韩国" [ref=e163]
+            - generic [ref=e164]: 韩国
+            - generic [ref=e165]: South Korea
+            - generic [ref=e166]: "FIFA #24"
+      - generic [ref=e167] [cursor=pointer]:
+        - generic [ref=e168]:
+          - generic [ref=e169]: 2026-06-13
+          - generic [ref=e170]: D组
+          - generic [ref=e171]: New York
+        - generic [ref=e172]:
+          - generic [ref=e173]:
+            - img "英格兰" [ref=e174]
+            - generic [ref=e175]: 英格兰
+            - generic [ref=e176]: England
+            - generic [ref=e177]: "FIFA #4"
+          - generic [ref=e178]: VS
+          - generic [ref=e179]:
+            - img "阿联酋" [ref=e180]
+            - generic [ref=e181]: 阿联酋
+            - generic [ref=e182]: UAE
+            - generic [ref=e183]: "FIFA #46"
+      - generic [ref=e184] [cursor=pointer]:
+        - generic [ref=e185]:
+          - generic [ref=e186]: 2026-06-13
+          - generic [ref=e187]: D组
+          - generic [ref=e188]: Boston
+        - generic [ref=e189]:
+          - generic [ref=e190]:
+            - img "塞内加尔" [ref=e191]
+            - generic [ref=e192]: 塞内加尔
+            - generic [ref=e193]: Senegal
+            - generic [ref=e194]: "FIFA #16"
+          - generic [ref=e195]: VS
+          - generic [ref=e196]:
+            - img "美国" [ref=e197]
+            - generic [ref=e198]: 美国
+            - generic [ref=e199]: USA
+            - generic [ref=e200]: "FIFA #20"
+    - heading "🏆 竞猜排行榜" [level=2] [ref=e201]:
+      - generic [ref=e202]: 🏆
+      - text: 竞猜排行榜
+    - list [ref=e203]:
+      - listitem [ref=e204]:
+        - generic [ref=e205]: 🥇
+        - generic [ref=e206]: 阿白 (你)
+        - generic [ref=e207]: ⭐ 48

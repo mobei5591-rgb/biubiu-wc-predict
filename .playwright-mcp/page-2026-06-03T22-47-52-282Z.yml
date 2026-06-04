@@ -1,0 +1,19 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "biubiu陪我看球" [ref=e4] [cursor=pointer]:
+      - /url: /
+      - img [ref=e6]
+      - generic [ref=e17]: biubiu陪我看球
+  - main [ref=e18]:
+    - generic [ref=e19]:
+      - generic [ref=e20]: ⚡
+      - heading "微信扫码登录" [level=2] [ref=e21]
+      - paragraph [ref=e22]: 登录后积分+竞猜数据云端同步，换设备不丢
+    - generic [ref=e24]:
+      - paragraph [ref=e25]: ⚠️ 微信登录需要部署后才能使用
+      - paragraph [ref=e26]: 本地开发模式：请先在 Vercel 部署本网站
+      - link "返回首页" [ref=e27] [cursor=pointer]:
+        - /url: /
+    - generic [ref=e29]:
+      - paragraph [ref=e30]: 或使用本地模式（数据存浏览器）
+      - button "💻 跳过登录，本地使用" [ref=e31] [cursor=pointer]

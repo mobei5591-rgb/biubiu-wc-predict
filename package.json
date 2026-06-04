@@ -1,0 +1,17 @@
+{
+  "name": "biubiu-wc-predict",
+  "version": "1.0.0",
+  "description": "biubiu陪我看球 - AI世界杯预测工具",
+  "scripts": {
+    "seed": "node scripts/seed-data.js",
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "openai": "^4.73.0"
+  },
+  "devDependencies": {
+    "vercel": "^37.0.0"
+  }
+}

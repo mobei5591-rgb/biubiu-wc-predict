@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" width="400" height="480">
+  <defs>
+    <radialGradient id="bb-body" cx="50%" cy="35%" r="55%">
+      <stop offset="0%" stop-color="#FFFEF8"/>
+      <stop offset="55%" stop-color="#FFF8E7"/>
+      <stop offset="100%" stop-color="#F0E6CC"/>
+    </radialGradient>
+    <radialGradient id="bb-bolt" cx="50%" cy="0%" r="100%">
+      <stop offset="0%" stop-color="#FFF9C4"/>
+      <stop offset="100%" stop-color="#FFD700"/>
+    </radialGradient>
+    <radialGradient id="bb-cheek" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFC8C8"/>
+      <stop offset="100%" stop-color="#FFA8A8"/>
+    </radialGradient>
+    <linearGradient id="bb-beam" x1="0%" x2="100%">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="70%" stop-color="#FFE566" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#FFE566" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="bb-shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#1a1a2e" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <ellipse cx="100" cy="230" rx="45" ry="8" fill="#1a1a2e" opacity="0.08"/>
+  <ellipse cx="75" cy="208" rx="18" ry="12" fill="url(#bb-body)" stroke="#E8DCC8" stroke-width="1"/>
+  <ellipse cx="125" cy="208" rx="18" ry="12" fill="url(#bb-body)" stroke="#E8DCC8" stroke-width="1"/>
+  <path d="M60,90 Q60,220 100,220 Q140,220 140,90 Z" fill="url(#bb-body)" stroke="#E8DCC8" stroke-width="1.5" filter="url(#bb-shadow)"/>
+  <circle cx="100" cy="155" r="22" fill="white" stroke="#D4C8B0" stroke-width="1"/>
+  <path d="M100,133 A22,22 0,0,1 100,177" fill="none" stroke="#D4C8B0" stroke-width="0.8"/>
+  <path d="M100,133 A22,22 0,0,0 100,177" fill="none" stroke="#D4C8B0" stroke-width="0.8"/>
+  <circle cx="88" cy="143" r="3" fill="#D4C8B0"/>
+  <circle cx="112" cy="155" r="3" fill="#D4C8B0"/>
+  <circle cx="99" cy="172" r="3" fill="#D4C8B0"/>
+  <path d="M48,100 Q39,85 30,95" fill="none" stroke="#E8DCC8" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="22" cy="97" r="8" fill="url(#bb-body)" stroke="#E8DCC8" stroke-width="1"/>
+  <path d="M152,100 Q161,85 170,95" fill="none" stroke="#E8DCC8" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="178" cy="93" r="8" fill="url(#bb-body)" stroke="#E8DCC8" stroke-width="1"/>
+  <path d="M178,87 L200,73" stroke="url(#bb-beam)" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="100" cy="65" r="55" fill="url(#bb-body)" stroke="#E8DCC8" stroke-width="1.5"/>
+  <polygon points="100,8 95,26 103,26 97,48 108,26 100,26 106,8" fill="url(#bb-bolt)"/>
+  <circle cx="82" cy="62" r="14" fill="#2a2a2a"/>
+  <circle cx="87" cy="57" r="5" fill="white"/>
+  <circle cx="83" cy="64" r="2" fill="white"/>
+  <circle cx="118" cy="62" r="14" fill="#2a2a2a"/>
+  <circle cx="123" cy="57" r="5" fill="white"/>
+  <circle cx="119" cy="64" r="2" fill="white"/>
+  <ellipse cx="60" cy="75" rx="14" ry="9" fill="url(#bb-cheek)" opacity="0.6"/>
+  <ellipse cx="140" cy="75" rx="14" ry="9" fill="url(#bb-cheek)" opacity="0.6"/>
+  <path d="M88,85 Q100,98 112,85" fill="none" stroke="#5a4a3a" stroke-width="2" stroke-linecap="round"/>
+</svg>

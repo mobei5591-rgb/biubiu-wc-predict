@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>登录 — biubiu陪我看球</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon" id="logo-biubiu"></div>
+      <div class="logo-text">biubiu<span>陪我看球</span></div>
+    </a>
+  </div>
+</header>
+
+<main class="main">
+  <section class="hero" style="text-align:center;padding:32px 24px">
+    <div style="font-size:64px;margin-bottom:8px">⚡</div>
+    <h2 style="font-size:22px">微信扫码登录</h2>
+    <p style="color:var(--text-dim);font-size:14px">登录后积分+竞猜数据云端同步，换设备不丢</p>
+  </section>
+
+  <!-- QR Code -->
+  <div style="text-align:center;margin:20px 0" id="qr-section">
+    <div id="qr-loading" style="padding:40px;color:var(--text-dim)">🔍 正在生成二维码...</div>
+    <div id="qr-display" style="display:none">
+      <div style="width:200px;height:200px;margin:0 auto;background:white;border-radius:12px;padding:12px" id="qr-code"></div>
+      <p style="margin-top:12px;color:var(--text-dim);font-size:13px">📱 打开微信扫一扫</p>
+    </div>
+    <div id="qr-error" style="display:none;padding:20px;color:var(--red)">
+      <p>⚠️ 微信登录需要部署后才能使用</p>
+      <p style="font-size:13px">本地开发模式：请先在 Vercel 部署本网站</p>
+      <a href="/" class="btn btn-gold" style="margin-top:12px">返回首页</a>
+    </div>
+  </div>
+
+  <!-- Local mode fallback -->
+  <div style="text-align:center;margin-top:28px;padding:0 20px">
+    <div style="border-top:1px solid var(--border);padding-top:20px">
+      <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px">或使用本地模式（数据存浏览器）</p>
+      <button class="btn btn-outline" id="local-login-btn" style="font-size:14px;padding:10px 20px">
+        💻 跳过登录，本地使用
+      </button>
+    </div>
+  </div>
+
+  <!-- Status for logged-in users -->
+  <div id="already-logged-in" style="display:none;text-align:center;padding:20px">
+    <div style="color:var(--green-light);font-size:48px">✅</div>
+    <p style="font-weight:700;margin-top:8px">已登录</p>
+    <p style="color:var(--text-dim);font-size:14px" id="logged-in-name"></p>
+    <a href="/" class="btn btn-gold" style="margin-top:12px">进入首页</a>
+    <button class="btn btn-outline" id="logout-btn" style="margin-top:8px">退出登录</button>
+  </div>
+</main>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="/"><span class="nav-icon">🏠</span>首页</a>
+    <a href="/standings.html"><span class="nav-icon">📊</span>小组赛积分</a>
+    <a href="/"><span class="nav-icon">🏆</span>排行</a>
+    <a href="/subscribe.html"><span class="nav-icon">⚡</span>VIP</a>
+  </div>
+</nav>
+
+<script src="/js/biubiu.js"></script>
+<script src="/js/app.js"></script>
+<script>
+// ============ Login Page Logic ============
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.injectBiubiuDefs) injectBiubiuDefs();
+
+  // Mini biubiu in logo
+  const logoEl = document.getElementById('logo-biubiu');
+  if (logoEl && window.biubiu && window.biubiu.biubiuMini) {
+    logoEl.innerHTML = window.biubiu.biubiuMini();
+  }
+
+  // Check if already logged in
+  const token = localStorage.getItem('biubiu_token');
+  const tokenName = localStorage.getItem('biubiu_token_name');
+  if (token) {
+    document.getElementById('qr-section').style.display = 'none';
+    document.getElementById('already-logged-in').style.display = 'block';
+    document.getElementById('logged-in-name').textContent = tokenName ? `你好，${tokenName}` : '已绑定微信';
+    return;
+  }
+
+  // Check for returning token from WeChat callback
+  const hash = window.location.hash;
+  if (hash && hash.includes('token=')) {
+    const params = new URLSearchParams(hash.slice(1));
+    const t = params.get('token');
+    const n = params.get('name');
+    const a = params.get('avatar');
+    if (t) {
+      localStorage.setItem('biubiu_token', t);
+      localStorage.setItem('biubiu_token_name', decodeURIComponent(n || ''));
+      if (a) localStorage.setItem('biubiu_avatar', decodeURIComponent(a));
+      window.location.hash = '';
+      location.reload();
+      return;
+    }
+  }
+
+  // Try to load QR code
+  loadQRCode();
+
+  // Local login
+  document.getElementById('local-login-btn').addEventListener('click', () => {
+    localStorage.setItem('biubiu_username', '阿白');
+    showToast('💻 已进入本地模式，数据存浏览器');
+    setTimeout(() => { window.location.href = '/'; }, 500);
+  });
+
+  // Logout
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('biubiu_token');
+      localStorage.removeItem('biubiu_token_name');
+      localStorage.removeItem('biubiu_avatar');
+      location.reload();
+    });
+  }
+});
+
+async function loadQRCode() {
+  try {
+    const res = await fetch('/api/wx-login');
+    const data = await res.json();
+
+    if (!data.ready) {
+      document.getElementById('qr-loading').style.display = 'none';
+      document.getElementById('qr-error').style.display = 'block';
+      return;
+    }
+
+    document.getElementById('qr-loading').style.display = 'none';
+    document.getElementById('qr-display').style.display = 'block';
+
+    // Generate QR code using google charts API (free, no deps)
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(data.oauthUrl)}`;
+    document.getElementById('qr-code').innerHTML = `<img src="${qrUrl}" width="176" height="176" alt="微信扫码登录" style="display:block">`;
+
+    // On mobile: redirect directly to WeChat OAuth
+    if (/iPhone|iPad|Android/i.test(navigator.userAgent)) {
+      setTimeout(() => {
+        window.location.href = data.oauthUrl;
+      }, 500);
+    }
+  } catch (e) {
+    document.getElementById('qr-loading').style.display = 'none';
+    document.getElementById('qr-error').style.display = 'block';
+  }
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+</script>
+</body>
+</html>

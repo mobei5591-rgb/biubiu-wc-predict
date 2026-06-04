@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>开通VIP — biubiu陪我看球</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon" id="logo-biubiu"></div>
+      <div class="logo-text">biubiu<span>陪我看球</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="/">首页</a>
+      <a href="/standings.html">小组赛积分</a>
+      <a href="/subscribe.html" class="active">VIP</a>
+      <a href="/login.html" style="font-size:12px;opacity:0.7">登录</a>
+      <button class="nav-btn nav-btn-checkin" id="header-checkin" title="每日签到领积分">🎁 签到</button>
+      <span class="points-badge" id="points-badge">⭐ 0</span>
+      <button class="nav-btn nav-btn-user" id="header-user" title="我的账户">👤</button>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+  <section class="subscribe-hero">
+    <h2>⚡ 解锁 <span>实时滚球预测</span></h2>
+    <p style="color:var(--text-dim)">比赛进行中，biubiu陪你看实时胜率跳动</p>
+  </section>
+
+  <section class="price-box">
+    <div style="font-size:14px;color:var(--text-dim)">世界杯全程（48场比赛）</div>
+    <div class="price-amount">¥9.9</div>
+    <div class="price-period">一次付费，看完全部比赛</div>
+    <div style="font-size:12px;color:var(--text-dim)">场均不到 ¥0.62</div>
+  </section>
+
+  <ul class="benefit-list">
+    <li>✅ <span>实时滚球预测 — 胜率随比分动态变化</span></li>
+    <li>✅ <span>赛前AI深度分析 — biubiu综合排名+赔率+专家共识</span></li>
+    <li>✅ <span>赛中关键事件推送 — 进球/红牌/换人实时提醒</span></li>
+    <li>✅ <span>赛后AI复盘报告 — 为什么赢了/输了</span></li>
+    <li>✅ <span>竞猜积分加成 — VIP用户竞猜积分×2</span></li>
+    <li>✅ <span>无广告纯净体验</span></li>
+  </ul>
+
+  <div style="text-align:center;margin:28px 0">
+    <p style="color:var(--text-dim);font-size:14px;margin-bottom:16px">
+      🧪 前3场比赛免费体验实时滚球预测
+    </p>
+    <p style="font-size:12px;color:var(--gold);margin-bottom:12px;font-weight:600">
+      🔥 已有 <strong style="font-size:16px">326</strong> 人开通 · ⚡开赛前订阅再送50积分
+    </p>
+    <button class="btn btn-gold btn-block" id="subscribe-btn" style="max-width:320px;margin:0 auto">
+      💳 立即开通 ¥9.9
+    </button>
+    <p style="font-size:11px;color:var(--text-dim);margin-top:12px">
+      MVP阶段 — 微信扫码联系阿白手动开通<br>
+      发送"biubiu订阅" → 30秒内开通
+    </p>
+  </div>
+
+  <!-- QR -->
+  <div style="text-align:center;padding:20px">
+    <div style="width:160px;height:160px;background:var(--bg-card);border:2px solid var(--gold);border-radius:12px;margin:0 auto;display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:13px">
+      📱 微信扫码<br>联系阿白
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <div style="max-width:360px;margin:0 auto 20px">
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px">
+      <div style="font-size:14px;color:var(--gold)">⭐⭐⭐⭐⭐</div>
+      <p style="font-size:13px;color:var(--text);margin:6px 0">"biubiu帮我猜对了3场！9.9太值了"</p>
+      <span style="font-size:11px;color:var(--text-dim)">— 球盲不盲 · 已订阅3天</span>
+    </div>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px">
+      <div style="font-size:14px;color:var(--gold)">⭐⭐⭐⭐⭐</div>
+      <p style="font-size:13px;color:var(--text);margin:6px 0">"实时滚球那个功能太上头了，越看越刺激"</p>
+      <span style="font-size:11px;color:var(--text-dim)">— AI永远的神 · 已订阅5天</span>
+    </div>
+  </div>
+</main>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="/"><span class="nav-icon">🏠</span>首页</a>
+    <a href="/"><span class="nav-icon">🔮</span>预测</a>
+    <a href="/login.html"><span class="nav-icon">🔐</span>登录</a>
+    <a href="/subscribe.html" class="active"><span class="nav-icon">⚡</span>VIP</a>
+  </div>
+</nav>
+
+<script src="/js/bbfx.js"></script>
+<script src="/js/biubiu.js"></script>
+<script src="/js/app.js"></script>
+<script src="/js/data.js"></script>
+</body>
+</html>

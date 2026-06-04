@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>比赛详情 — biubiu陪我看球</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon" id="logo-biubiu"></div>
+      <div class="logo-text">biubiu<span>陪我看球</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="/">首页</a>
+      <a href="/standings.html">小组赛积分</a>
+      <a href="/subscribe.html">VIP</a>
+      <a href="/login.html" style="font-size:12px;opacity:0.7">登录</a>
+      <button class="nav-btn nav-btn-checkin" id="header-checkin" title="每日签到领积分">🎁 签到</button>
+      <span class="points-badge">⭐ <span id="points">0</span></span>
+      <button class="nav-btn nav-btn-user" id="header-user" title="我的账户">👤</button>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+  <!-- Match Detail -->
+  <section class="match-detail" id="match-detail">
+    <div style="text-align:center;padding:40px;color:var(--text-dim)">
+      🔍 biubiu正在分析这场比赛...
+    </div>
+  </section>
+
+  <!-- biubiu预测 -->
+  <section class="prediction-box" id="prediction-box" style="display:none">
+    <div style="display:flex;align-items:center;gap:0">
+      <div id="prediction-biubiu"></div>
+      <div class="prediction-title" style="margin:0;padding-left:0">
+        <span style="background:linear-gradient(135deg,var(--gold),#ffe566);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">biubiu</span><span style="color:var(--text-dim);font-size:13px"> 的AI预测</span>
+      </div>
+      <span class="live-odds-badge" id="live-badge-win" style="display:none;margin-left:8px">🤖AI赔率</span>
+    </div>
+    <div class="prob-bars" id="prob-bars"></div>
+
+    <!-- VIP live score predictions -->
+    <div id="score-predictions" style="display:none"></div>
+
+    <!-- Odds row — removed duplicate, odds now only in bet panel below -->
+    <div class="odds-row-standalone" style="margin-top:14px;text-align:center">
+      <span style="font-size:11px;color:var(--text-dim)">👇 在下方投注面板选择赔率</span>
+    </div>
+
+    <div class="biubiu-comment" id="biubiu-comment"></div>
+    <div style="margin-top:12px;font-size:12px;color:var(--text-dim)" id="prediction-source"></div>
+  </section>
+
+  <!-- Sportsbook-style Bet Panel -->
+  <section class="guess-card" id="guess-panel" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <span class="guess-label">🎯 积分竞猜</span>
+      <span class="bet-multiplier" id="bet-multiplier" style="display:none"></span>
+    </div>
+
+    <!-- Bet type tabs -->
+    <div class="bet-tabs" id="bet-tabs">
+      <button class="bet-tab active" data-type="win">胜平负</button>
+      <button class="bet-tab" data-type="overunder">大小球</button>
+      <button class="bet-tab" data-type="handicap">让球</button>
+      <button class="bet-tab" data-type="correctscore">猜比分</button>
+    </div>
+
+    <!-- Existing bets display -->
+    <div id="existing-bets" style="display:none;margin-bottom:12px"></div>
+
+    <!-- Win/Draw/Loss — live odds -->
+    <div id="bet-win" class="bet-panel">
+      <div class="odds-grid">
+        <button class="odds-btn" data-bet="win_home" data-odds="2.10">
+          <span class="odds-label">主胜</span><span class="odds-val live-odds" id="odds-home">@2.10</span></button>
+        <button class="odds-btn" data-bet="win_draw" data-odds="3.50">
+          <span class="odds-label">平局</span><span class="odds-val live-odds" id="odds-draw">@3.50</span></button>
+        <button class="odds-btn" data-bet="win_away" data-odds="2.80">
+          <span class="odds-label">客胜</span><span class="odds-val live-odds" id="odds-away">@2.80</span></button>
+      </div>
+    </div>
+
+    <!-- Over/Under -->
+    <div id="bet-overunder" class="bet-panel" style="display:none">
+      <div class="ou-grid">
+        <div class="ou-card" data-bet="ou_over25" data-odds="1.90">
+          <div class="ou-line">2.5 大</div><div class="ou-label">总进球 > 2.5</div></div>
+        <div class="ou-card" data-bet="ou_under25" data-odds="1.85">
+          <div class="ou-line">2.5 小</div><div class="ou-label">总进球 < 2.5</div></div>
+      </div>
+    </div>
+
+    <!-- Handicap -->
+    <div id="bet-handicap" class="bet-panel" style="display:none">
+      <div class="handicap-row">
+        <div class="handicap-btn" data-bet="hc_home_0" data-odds="1.95"><span class="hcap-team" id="hcap-home">主队</span><span class="hcap-line">平手(0)</span></div>
+        <div class="handicap-btn" data-bet="hc_away_0" data-odds="1.85"><span class="hcap-team" id="hcap-away">客队</span><span class="hcap-line">平手(0)</span></div>
+      </div>
+      <div class="handicap-row">
+        <div class="handicap-btn" data-bet="hc_home_m1" data-odds="3.20"><span class="hcap-team" id="hcap-home-m1">主队</span><span class="hcap-line">-1</span></div>
+        <div class="handicap-btn" data-bet="hc_away_p1" data-odds="1.35"><span class="hcap-team" id="hcap-away-p1">客队</span><span class="hcap-line">+1</span></div>
+      </div>
+    </div>
+
+    <!-- Correct Score -->
+    <div id="bet-correctscore" class="bet-panel" style="display:none">
+      <div class="cs-grid" id="cs-grid">
+        <button class="cs-btn" data-bet="cs_1_0" data-odds="6.00">1:0</button>
+        <button class="cs-btn" data-bet="cs_2_0" data-odds="8.00">2:0</button>
+        <button class="cs-btn" data-bet="cs_2_1" data-odds="7.50">2:1</button>
+        <button class="cs-btn" data-bet="cs_0_0" data-odds="9.00">0:0</button>
+        <button class="cs-btn" data-bet="cs_1_1" data-odds="6.50">1:1</button>
+        <button class="cs-btn" data-bet="cs_0_1" data-odds="7.00">0:1</button>
+        <button class="cs-btn" data-bet="cs_3_0" data-odds="15.00">3:0</button>
+        <button class="cs-btn" data-bet="cs_3_1" data-odds="12.00">3:1</button>
+        <button class="cs-btn" data-bet="cs_0_2" data-odds="10.00">0:2</button>
+        <button class="cs-btn" data-bet="cs_2_2" data-odds="13.00">2:2</button>
+        <button class="cs-btn" data-bet="cs_3_2" data-odds="25.00">3:2</button>
+        <button class="cs-btn" data-bet="cs_other" data-odds="30.00">其他</button>
+      </div>
+    </div>
+
+    <!-- Unified Bet Slip: selected bets + stake + submit -->
+    <div class="bet-slip-inline" id="bet-slip-inline">
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px">📋 已选投注 <span style="color:var(--gold);font-weight:600" id="slip-count">0注</span></div>
+      <div id="bet-slip-items" style="margin-bottom:10px"></div>
+
+      <div class="bet-slip-amount-row">
+        <span class="stake-label">💎 每注</span>
+        <button class="stake-stepper" id="stake-minus" title="减1">−</button>
+        <input type="number" id="bet-stake" value="10" min="10" max="9999999" step="1" inputmode="numeric">
+        <button class="stake-stepper" id="stake-plus" title="加1">+</button>
+        <span class="stake-label">积分</span>
+        <div class="stake-presets">
+          <button data-amt="10" class="active">10</button>
+          <button data-amt="10">10</button>
+          <button data-amt="50">50</button>
+          <button data-amt="100">100</button>
+          <button data-amt="500">500</button>
+          <button data-amt="100">100</button>
+          <button data-amt="500">500</button>
+        </div>
+      </div>
+
+      <div class="bet-slip-total" style="margin-bottom:10px">
+        <span><span id="slip-label-stake">总投入</span> <strong id="bet-slip-stake">0</strong> 分</span>
+        <span>最高赢 <strong style="color:var(--gold);font-size:18px" id="bet-slip-payout">0</strong></span>
+      </div>
+
+      <button class="btn btn-gold btn-block" id="submit-guess">
+        🚀 确认投注
+      </button>
+      <div style="font-size:11px;color:var(--text-dim);margin-top:6px;text-align:center">
+        ⚠️ 积分免费获取，不可充值/提现/兑换现金
+      </div>
+    </div>
+  </section>
+
+  <!-- VIP upsell -->
+  <section class="vip-card" style="margin-top:20px;display:none" id="vip-upsell">
+    <h3>⚡ 想实时追踪这场比赛？</h3>
+    <p style="color:var(--text-dim)">比赛进行中实时胜率跳动，看biubiu的预测如何随比分变化</p>
+    <div class="vip-price">¥9.9<small>/世界杯全程</small></div>
+    <a href="/subscribe.html" class="btn btn-gold btn-block">🔓 解锁实时滚球预测</a>
+  </section>
+
+  <!-- Bet History -->
+  <section id="bet-history" style="display:none;margin-top:20px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px">
+  </section>
+</main>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="/"><span class="nav-icon">🏠</span>首页</a>
+    <a href="/match.html" class="active"><span class="nav-icon">🔮</span>预测</a>
+    <a href="/"><span class="nav-icon">🏆</span>排行</a>
+    <a href="/standings.html"><span class="nav-icon">📊</span>小组赛积分</a>
+    <a href="/login.html"><span class="nav-icon">🔐</span>登录</a>
+    <a href="/subscribe.html"><span class="nav-icon">⚡</span>VIP</a>
+  </div>
+</nav>
+
+<script src="/js/bbfx.js"></script>
+<script src="/js/biubiu.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>

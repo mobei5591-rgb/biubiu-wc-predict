@@ -1,0 +1,69 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "biubiu陪我看球" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img [ref=e6]
+        - generic [ref=e17]: biubiu陪我看球
+      - navigation [ref=e18]:
+        - link "首页" [ref=e19] [cursor=pointer]:
+          - /url: /
+        - link "积分" [ref=e20] [cursor=pointer]:
+          - /url: /standings.html
+        - link "VIP" [ref=e21] [cursor=pointer]:
+          - /url: /subscribe.html
+        - link "登录" [ref=e22] [cursor=pointer]:
+          - /url: /login.html
+        - button "🎁 签到" [ref=e23] [cursor=pointer]
+        - generic [ref=e24]: ⭐ 48
+        - button "👤" [ref=e25] [cursor=pointer]
+  - main [ref=e26]:
+    - generic [ref=e27]:
+      - heading "⚡ 解锁 实时滚球预测" [level=2] [ref=e28]
+      - paragraph [ref=e29]: 比赛进行中，biubiu陪你看实时胜率跳动
+    - generic [ref=e30]:
+      - generic [ref=e31]: 世界杯全程（48场比赛）
+      - generic [ref=e32]: ¥9.9
+      - generic [ref=e33]: 一次付费，看完全部比赛
+      - generic [ref=e34]: 场均不到 ¥0.62
+    - list [ref=e35]:
+      - listitem [ref=e36]:
+        - text: ✅
+        - generic [ref=e37]: 实时滚球预测 — 胜率随比分动态变化
+      - listitem [ref=e38]:
+        - text: ✅
+        - generic [ref=e39]: 赛前AI深度分析 — biubiu综合排名+赔率+专家共识
+      - listitem [ref=e40]:
+        - text: ✅
+        - generic [ref=e41]: 赛中关键事件推送 — 进球/红牌/换人实时提醒
+      - listitem [ref=e42]:
+        - text: ✅
+        - generic [ref=e43]: 赛后AI复盘报告 — 为什么赢了/输了
+      - listitem [ref=e44]:
+        - text: ✅
+        - generic [ref=e45]: 竞猜积分加成 — VIP用户竞猜积分×2
+      - listitem [ref=e46]:
+        - text: ✅
+        - generic [ref=e47]: 无广告纯净体验
+    - generic [ref=e48]:
+      - paragraph [ref=e49]: 🧪 前3场比赛免费体验实时滚球预测
+      - paragraph [ref=e50]:
+        - text: 🔥 已有
+        - strong [ref=e51]: "326"
+        - text: 人开通 · ⚡开赛前订阅再送50积分
+      - button "💳 立即开通 ¥9.9" [ref=e52] [cursor=pointer]
+      - paragraph [ref=e53]:
+        - text: MVP阶段 — 微信扫码联系阿白手动开通
+        - text: 发送"biubiu订阅" → 30秒内开通
+    - generic [ref=e55]:
+      - text: 📱 微信扫码
+      - text: 联系阿白
+    - generic [ref=e56]:
+      - generic [ref=e57]:
+        - generic [ref=e58]: ⭐⭐⭐⭐⭐
+        - paragraph [ref=e59]: "\"biubiu帮我猜对了3场！9.9太值了\""
+        - text: — 球盲不盲 · 已订阅3天
+      - generic [ref=e60]:
+        - generic [ref=e61]: ⭐⭐⭐⭐⭐
+        - paragraph [ref=e62]: "\"实时滚球那个功能太上头了，越看越刺激\""
+        - text: — AI永远的神 · 已订阅5天

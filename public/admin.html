@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>后台管理 — biubiu陪我看球</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon" id="logo-biubiu"></div>
+      <div class="logo-text">biubiu<span>管理后台</span></div>
+    </a>
+  </div>
+</header>
+
+<main class="main">
+  <!-- Login Gate -->
+  <section id="admin-login" style="max-width:360px;margin:40px auto">
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="font-size:48px;margin-bottom:8px">🔐</div>
+      <h2>管理员登录</h2>
+      <p style="color:var(--text-dim);font-size:13px">输入管理密码进入后台</p>
+    </div>
+    <input type="password" id="admin-password" placeholder="输入管理密码" style="width:100%;height:48px;background:var(--bg);border:2px solid var(--border);border-radius:10px;color:var(--text);font-size:16px;text-align:center;margin-bottom:12px" onkeydown="if(event.key==='Enter')adminLogin()">
+    <button class="btn btn-gold btn-block" onclick="adminLogin()">进入后台</button>
+    <p style="font-size:11px;color:var(--text-dim);text-align:center;margin-top:12px">默认密码：biubiu2026 · 登录后可修改</p>
+  </section>
+
+  <!-- Admin Panel (hidden until login) -->
+  <section id="admin-panel" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2 style="margin:0">⚙️ VIP管理</h2>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline" onclick="logoutAdmin()" style="font-size:12px;padding:6px 14px">退出</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px">
+      <div class="stat-box"><div class="stat-num" id="stat-total" style="font-size:28px">0</div><div class="stat-label">VIP总数</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-active" style="font-size:28px">0</div><div class="stat-label">本月新增</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-revenue" style="font-size:28px">¥0</div><div class="stat-label">预估收入</div></div>
+    </div>
+
+    <!-- Add VIP -->
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px">
+      <h3 style="font-size:14px;margin-bottom:10px">➕ 添加VIP用户</h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input type="text" id="vip-user-id" placeholder="用户ID/OpenID" style="flex:1;min-width:140px;height:40px;background:var(--bg);border:2px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;padding:0 10px">
+        <input type="text" id="vip-user-name" placeholder="昵称（选填）" style="flex:1;min-width:120px;height:40px;background:var(--bg);border:2px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;padding:0 10px">
+        <select id="vip-duration" style="height:40px;background:var(--bg);border:2px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;padding:0 8px">
+          <option value="wc">世界杯全程</option>
+          <option value="7">7天试用</option>
+          <option value="30">30天</option>
+          <option value="forever">永久</option>
+        </select>
+        <button class="btn btn-gold" onclick="addVipUser()" style="font-size:14px;height:40px;padding:0 16px">添加</button>
+      </div>
+    </div>
+
+    <!-- VIP List -->
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border)">
+        <h3 style="font-size:14px;margin:0">📋 VIP用户列表</h3>
+        <button class="btn btn-outline" onclick="exportVips()" style="font-size:11px;padding:4px 10px">导出</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="standings-table" id="vip-table">
+          <thead><tr>
+            <th>用户ID</th><th>昵称</th><th>开通时间</th><th>到期时间</th><th>类型</th><th>操作</th>
+          </tr></thead>
+          <tbody id="vip-list-body">
+            <tr><td colspan="6" style="text-align:center;color:var(--text-dim);padding:20px">暂无VIP用户</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Settle Match -->
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px">
+      <h3 style="font-size:14px;margin-bottom:10px">⚽ 手动结算比赛</h3>
+      <p style="font-size:11px;color:var(--text-dim);margin-bottom:10px">选择比赛、输入最终比分后结算。自动遍历所有用户投注并判定输赢。</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end">
+        <select id="settle-match-id" style="height:40px;background:var(--bg);border:2px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;padding:0 8px;min-width:200px">
+          <option value="">-- 选择比赛 --</option>
+        </select>
+        <input type="number" id="settle-home-score" placeholder="主队进球" value="0" min="0" max="99" style="width:90px;height:40px;background:var(--bg);border:2px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;text-align:center">
+        <span style="color:var(--text-dim);line-height:40px">:</span>
+        <input type="number" id="settle-away-score" placeholder="客队进球" value="0" min="0" max="99" style="width:90px;height:40px;background:var(--bg);border:2px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;text-align:center">
+        <button class="btn btn-gold" onclick="settleMatch()" style="font-size:14px;height:40px;padding:0 20px">⚡ 结算本场</button>
+      </div>
+      <div id="settle-result" style="margin-top:10px;font-size:12px;color:var(--text-dim)"></div>
+    </div>
+
+    <!-- Settings -->
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-top:16px">
+      <h3 style="font-size:14px;margin-bottom:10px">⚙️ 设置</h3>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-size:13px;color:var(--text-dim)">管理密码：</span>
+        <input type="text" id="new-password" placeholder="新密码" style="width:160px;height:36px;background:var(--bg);border:2px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;padding:0 10px">
+        <button class="btn btn-outline" onclick="changePassword()" style="font-size:12px;padding:6px 14px">修改密码</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="/js/biubiu.js"></script>
+<script src="/js/data.js"></script>
+<script>
+// Admin password (stored in localStorage, default: biubiu2026)
+const DEFAULT_PASSWORD = 'biubiu2026';
+
+function initAdmin() {
+  const pwd = localStorage.getItem('biubiu_admin_pwd') || DEFAULT_PASSWORD;
+  localStorage.setItem('biubiu_admin_pwd', pwd);
+
+  // Check if already logged in
+  if (sessionStorage.getItem('biubiu_admin') === '1') {
+    showPanel();
+  }
+
+  // biubiu logo
+  const logoEl = document.getElementById('logo-biubiu');
+  if (logoEl && window.biubiu && window.biubiu.biubiuMini) {
+    logoEl.innerHTML = window.biubiu.biubiuMini();
+  }
+}
+
+function adminLogin() {
+  const input = document.getElementById('admin-password').value;
+  const pwd = localStorage.getItem('biubiu_admin_pwd') || DEFAULT_PASSWORD;
+  if (input === pwd) {
+    sessionStorage.setItem('biubiu_admin', '1');
+    showPanel();
+  } else {
+    alert('密码错误');
+  }
+}
+
+function logoutAdmin() {
+  sessionStorage.removeItem('biubiu_admin');
+  location.reload();
+}
+
+function showPanel() {
+  document.getElementById('admin-login').style.display = 'none';
+  document.getElementById('admin-panel').style.display = 'block';
+  renderVipList();
+  loadSettleMatches();
+}
+
+async function loadSettleMatches() {
+  const sel = document.getElementById('settle-match-id');
+  // Load from standalone data
+  if (window.__BIUBIU_DATA__ && window.__BIUBIU_DATA__.matches) {
+    sel.innerHTML = '<option value="">-- 选择比赛 --</option>' +
+      window.__BIUBIU_DATA__.matches.map(m => {
+        const h = (window.__BIUBIU_TEAMS__ && window.__BIUBIU_TEAMS__[m.home]) ? window.__BIUBIU_TEAMS__[m.home].zh : m.home;
+        const a = (window.__BIUBIU_TEAMS__ && window.__BIUBIU_TEAMS__[m.away]) ? window.__BIUBIU_TEAMS__[m.away].zh : m.away;
+        const hs = m.home_score !== undefined && m.home_score !== null ? ` (${m.home_score}:${m.away_score})` : '';
+        return `<option value="${m.id}">#${m.id} ${h} vs ${a} | ${m.date}${hs}</option>`;
+      }).join('');
+    return;
+  }
+  // Try fetch from API
+  try {
+    const res = await fetch('/api/matches');
+    if (res.ok) {
+      const data = await res.json();
+      sel.innerHTML = '<option value="">-- 选择比赛 --</option>' +
+        data.matches.map(m => {
+          const hs = m.home_score !== undefined && m.home_score !== null ? ` (${m.home_score}:${m.away_score})` : '';
+          return `<option value="${m.id}">#${m.id} ${m.home} vs ${m.away} | ${m.date}${hs}</option>`;
+        }).join('');
+    }
+  } catch (e) { /* fallback */ }
+}
+
+function settleMatch() {
+  const matchId = parseInt(document.getElementById('settle-match-id').value);
+  const homeScore = parseInt(document.getElementById('settle-home-score').value);
+  const awayScore = parseInt(document.getElementById('settle-away-score').value);
+
+  if (!matchId) { alert('请选择比赛'); return; }
+  if (isNaN(homeScore) || isNaN(awayScore)) { alert('请输入有效比分'); return; }
+  if (!confirm(`确认结算？\n比分：${homeScore} : ${awayScore}\n结算后不可撤销。`)) return;
+
+  // Write score into match data
+  if (window.__BIUBIU_DATA__) {
+    const m = window.__BIUBIU_DATA__.matches.find(m => m.id === matchId);
+    if (m) {
+      m.home_score = homeScore;
+      m.away_score = awayScore;
+    }
+  }
+
+  // Settle user's own guesses (localStorage)
+  let userGuesses = {};
+  try { userGuesses = JSON.parse(localStorage.getItem('biubiu_guesses') || '{}'); } catch (e) { /* */ }
+
+  const g = userGuesses[matchId];
+  if (g && !g.final) {
+    let totalWon = 0;
+    g.bets.forEach(bet => {
+      const won = judgeBetLocal(bet.bet, homeScore, awayScore);
+      bet.result = won ? 'win' : 'loss';
+      if (won) totalWon += bet.payout;
+    });
+    g.final = true;
+
+    if (totalWon > 0) {
+      let points = parseInt(localStorage.getItem('biubiu_points') || '50');
+      points += totalWon;
+      localStorage.setItem('biubiu_points', points);
+      document.getElementById('settle-result').innerHTML =
+        `<span style="color:var(--green-light)">✅ 结算完成！中奖 +${totalWon} 分（已更新本地积分）</span>`;
+    } else {
+      document.getElementById('settle-result').innerHTML =
+        '<span style="color:var(--red)">✅ 结算完成，本场未中奖</span>';
+    }
+
+    localStorage.setItem('biubiu_guesses', JSON.stringify(userGuesses));
+  } else if (!g) {
+    document.getElementById('settle-result').innerHTML =
+      '<span style="color:var(--text-dim)">⚠️ 本地无此比赛投注记录</span>';
+  } else if (g.final) {
+    document.getElementById('settle-result').innerHTML =
+      '<span style="color:var(--gold)">⚠️ 本场已结算过</span>';
+  }
+}
+
+// Settlement judgment rules (same as app.js judgeBet)
+function judgeBetLocal(bet, homeScore, awayScore) {
+  const totalGoals = homeScore + awayScore;
+  switch (bet) {
+    case 'win_home': return homeScore > awayScore;
+    case 'win_draw': return homeScore === awayScore;
+    case 'win_away': return homeScore < awayScore;
+    case 'ou_over25': return totalGoals > 2.5;
+    case 'ou_under25': return totalGoals < 2.5;
+    case 'hc_home_0': return homeScore > awayScore;
+    case 'hc_away_0': return homeScore < awayScore;
+    case 'hc_home_m1': return (homeScore - 1) > awayScore;
+    case 'hc_away_p1': return homeScore < (awayScore + 1);
+    case 'cs_1_0': return homeScore === 1 && awayScore === 0;
+    case 'cs_2_0': return homeScore === 2 && awayScore === 0;
+    case 'cs_2_1': return homeScore === 2 && awayScore === 1;
+    case 'cs_0_0': return homeScore === 0 && awayScore === 0;
+    case 'cs_1_1': return homeScore === 1 && awayScore === 1;
+    case 'cs_0_1': return homeScore === 0 && awayScore === 1;
+    case 'cs_3_0': return homeScore === 3 && awayScore === 0;
+    case 'cs_3_1': return homeScore === 3 && awayScore === 1;
+    case 'cs_0_2': return homeScore === 0 && awayScore === 2;
+    case 'cs_2_2': return homeScore === 2 && awayScore === 2;
+    case 'cs_3_2': return homeScore === 3 && awayScore === 2;
+    case 'cs_other': {
+      const scores = ['1_0','2_0','2_1','0_0','1_1','0_1','3_0','3_1','0_2','2_2','3_2'];
+      return !scores.includes(`${homeScore}_${awayScore}`);
+    }
+    default: return false;
+  }
+}
+
+function changePassword() {
+  const np = document.getElementById('new-password').value;
+  if (!np || np.length < 6) { alert('密码至少6位'); return; }
+  localStorage.setItem('biubiu_admin_pwd', np);
+  alert('✅ 密码已修改');
+  document.getElementById('new-password').value = '';
+}
+
+// ============ VIP User Storage ============
+function getVipUsers() {
+  try { return JSON.parse(localStorage.getItem('biubiu_vip_users') || '[]'); }
+  catch { return []; }
+}
+function saveVipUsers(users) {
+  localStorage.setItem('biubiu_vip_users', JSON.stringify(users));
+}
+
+function addVipUser() {
+  const uid = document.getElementById('vip-user-id').value.trim();
+  const name = document.getElementById('vip-user-name').value.trim() || '球迷';
+  const duration = document.getElementById('vip-duration').value;
+  if (!uid) { alert('请输入用户ID'); return; }
+
+  const users = getVipUsers();
+  if (users.find(u => u.id === uid)) { alert('该用户已存在'); return; }
+
+  const now = new Date();
+  const expiry = duration === 'wc' ? new Date('2026-07-20') :
+    duration === '7' ? new Date(now.getTime() + 7*86400000) :
+    duration === '30' ? new Date(now.getTime() + 30*86400000) :
+    new Date('2099-12-31');
+
+  users.push({
+    id: uid, name, duration,
+    created: now.toISOString().split('T')[0],
+    expiry: expiry.toISOString().split('T')[0],
+    status: 'active'
+  });
+  saveVipUsers(users);
+  document.getElementById('vip-user-id').value = '';
+  document.getElementById('vip-user-name').value = '';
+  renderVipList();
+  showToast('✅ VIP用户已添加');
+}
+
+function removeVipUser(uid) {
+  if (!confirm('确认删除该VIP用户？')) return;
+  const users = getVipUsers().filter(u => u.id !== uid);
+  saveVipUsers(users);
+  renderVipList();
+  showToast('🗑️ VIP用户已删除');
+}
+
+function exportVips() {
+  const users = getVipUsers();
+  const csv = '用户ID,昵称,开通时间,到期时间,类型,状态\n' + users.map(u => `${u.id},${u.name},${u.created},${u.expiry},${u.duration},${u.status}`).join('\n');
+  const blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'biubiu_vip_users.csv'; a.click();
+}
+
+function renderVipList() {
+  const users = getVipUsers();
+  const tbody = document.getElementById('vip-list-body');
+  document.getElementById('stat-total').textContent = users.length;
+
+  // This month count
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+  const thisMonth = users.filter(u => u.created >= monthStart).length;
+  document.getElementById('stat-active').textContent = thisMonth;
+  document.getElementById('stat-revenue').textContent = '¥' + (users.length * 9.9).toFixed(0);
+
+  if (users.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-dim);padding:20px">暂无VIP用户</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = users.map(u => `
+    <tr>
+      <td style="font-size:12px">${u.id}</td>
+      <td>${u.name}</td>
+      <td style="font-size:12px">${u.created}</td>
+      <td style="font-size:12px">${u.expiry}</td>
+      <td><span style="background:rgba(255,215,0,0.12);padding:2px 8px;border-radius:10px;font-size:11px;color:var(--gold)">${u.duration === 'wc' ? '世界杯' : u.duration === '7' ? '7天试用' : u.duration === '30' ? '30天' : '永久'}</span></td>
+      <td><button class="btn btn-outline" onclick="removeVipUser('${u.id}')" style="font-size:10px;padding:2px 8px;color:var(--red);border-color:var(--red)">删除</button></td>
+    </tr>`).join('');
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+document.addEventListener('DOMContentLoaded', initAdmin);
+</script>
+</body>
+</html>
