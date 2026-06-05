@@ -171,6 +171,18 @@
     <a href="/subscribe.html" class="btn btn-gold btn-block">🔓 解锁实时滚球预测</a>
   </section>
 
+  <!-- Live Events Timeline (VIP) -->
+  <section id="live-events" style="display:none;margin-top:20px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px">
+    <h3 style="font-size:14px;color:var(--gold);margin-bottom:10px">📡 赛中实时事件</h3>
+    <div id="events-timeline" style="max-height:400px;overflow-y:auto"></div>
+    <div style="font-size:11px;color:var(--text-dim);margin-top:6px;text-align:center">30秒自动刷新 · VIP专属</div>
+  </section>
+
+  <!-- Post-match AI Report -->
+  <section id="match-report" style="display:none;margin-top:20px;background:var(--bg-card);border:1px solid var(--gold);border-radius:var(--radius);padding:20px">
+    <div id="report-content"></div>
+  </section>
+
   <!-- Bet History -->
   <section id="bet-history" style="display:none;margin-top:20px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px">
   </section>
@@ -190,6 +202,11 @@
 <script src="/js/bbfx.js"></script>
 <script src="/js/biubiu.js"></script>
 <script src="/js/data.js"></script>
+<script src="/js/sportscore.js"></script>
 <script src="/js/app.js"></script>
+
+<footer style="text-align:center;padding:12px 16px 24px;font-size:11px;color:var(--text-dim)">
+  <a href="https://sportscore.com/" rel="dofollow" title="Sports data by SportScore" style="display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:#fff;color:#0a1e3d;border-radius:4px;text-decoration:none;font:600 .88rem system-ui,-apple-system,sans-serif;border:1px solid #dce3ef;">Powered by SportScore</a>
+</footer>
 </body>
 </html>

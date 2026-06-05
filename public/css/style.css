@@ -41,7 +41,7 @@ body {
   backdrop-filter: blur(12px);
 }
 .header-inner {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -99,9 +99,9 @@ body {
 
 /* === Main Content === */
 .main {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 16px 40px;
+  padding: 20px 24px 40px;
 }
 
 /* === Hero Banner === */
@@ -173,7 +173,11 @@ body {
 }
 .section-title .icon { font-size: 22px; }
 
-.match-list { display: flex; flex-direction: column; gap: 10px; }
+.match-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
 
 .match-card {
   background: var(--bg-card);
@@ -515,6 +519,28 @@ body {
 .score-pred-row .score-pred-bar-wrap { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
 .score-pred-row .score-pred-bar { height: 100%; background: var(--green-light); border-radius: 4px; transition: width 0.6s ease; min-width: 2px; }
 .score-pred-row .score-pred-pct { min-width: 38px; font-size: 11px; color: var(--text-dim); text-align: right; }
+
+
+/* Live events timeline */
+.event-row { display: flex; align-items: center; gap: 8px; padding: 7px 4px; font-size: 12px; border-bottom: 1px solid var(--border); animation: eventIn 0.3s ease; }
+.event-row:last-child { border-bottom: none; }
+.event-row.event-latest { background: rgba(255,215,0,0.04); border-radius: 4px; }
+.event-minute { min-width: 30px; color: var(--text-dim); font-weight: 600; font-variant-numeric: tabular-nums; }
+.event-icon { font-size: 14px; min-width: 20px; text-align: center; }
+.event-msg { flex: 1; color: var(--text); }
+.event-new { font-size: 9px; color: var(--red); font-weight: 700; background: rgba(231,76,60,0.15); padding: 1px 4px; border-radius: 3px; animation: eventPulse 1s infinite; }
+@keyframes eventIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes eventPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+
+/* Post-match report */
+.report-body { line-height: 1.8; }
+.report-markdown { font-size: 14px; color: var(--text); }
+.report-markdown h4 { color: var(--gold); font-size: 16px; margin: 16px 0 6px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+.report-markdown h5 { color: var(--text); font-size: 14px; margin: 12px 0 4px; }
+.report-markdown strong { color: var(--gold); }
+.report-loading { text-align: center; padding: 20px; }
+.report-summary { text-align: center; padding: 20px; }
 
 /* Confirm dialog overlay */
 .confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); animation: fadeIn 0.2s ease; }
@@ -880,7 +906,63 @@ body {
 .bottom-nav a .nav-icon { font-size: 20px; }
 .bottom-nav a.active, .bottom-nav a:hover { color: var(--gold); }
 
-/* === Responsive === */
+/* === Desktop layout (>=768px) === */
+@media (min-width: 768px) {
+  .match-list {
+    grid-template-columns: 1fr 1fr;
+  }
+  .match-card.hero-upcoming {
+    grid-column: span 2;
+  }
+
+  .bet-panel .odds-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .detail-vs {
+    gap: 40px;
+  }
+  .detail-team .name {
+    font-size: 22px;
+  }
+  .detail-flag {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Match page: prediction + bet side by side */
+  .prediction-box {
+    flex: 1;
+    margin-right: 16px;
+  }
+  .guess-card {
+    flex: 1;
+  }
+  main.main > section {
+    display: block;
+  }
+  #match-detail + .prediction-box {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+    margin-right: 2%;
+  }
+  .prediction-box + .guess-card {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+  }
+
+  /* Events + report full width */
+  #live-events, #match-report {
+    display: block;
+    clear: both;
+  }
+}
+
+/* === Responsive — mobile === */
 @media (max-width: 480px) {
   .hero h1 { font-size: 22px; }
   .hero-biubiu { margin-bottom: 8px; }

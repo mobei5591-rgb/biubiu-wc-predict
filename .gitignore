@@ -4,3 +4,5 @@ node_modules/
 .playwright-mcp/
 screenshots/
 *.log
+
+.vercel

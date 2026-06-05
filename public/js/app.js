@@ -455,14 +455,18 @@ async function initMatchPage() {
     renderPrediction(match);
     initGuessPanel(match);
     renderBetHistory(match);
+    renderMatchReport(match);
 
-    // Auto-refresh for VIP live matches (score + prediction updates every 30s)
+    // Auto-refresh for VIP live matches (score + prediction + events every 30s)
     const st = getMatchStatus(match);
     const isLive = st.status === 'first_half' || st.status === 'second_half' || st.status === 'halftime';
     if (isLive && userVip) {
+      // Initial fetch
+      fetchAndRenderEvents(matchId, st);
       window._biubiuLiveRefresh = setInterval(() => {
         renderMatchDetail(match);
         renderPrediction(match);
+        fetchAndRenderEvents(matchId, getMatchStatus(match));
         // Re-attach live odds badge
         const lb = document.getElementById('live-badge-win');
         if (lb) { lb.style.display = 'inline-flex'; lb.classList.add('live-active'); }
@@ -1009,6 +1013,117 @@ function updateBetSlipDisplay(slipState, match, panel, stakeAmt) {
     slip.classList.remove('has-bets');
     if (slipCount) slipCount.textContent = '0注';
   }
+}
+
+// ============ Live Events Polling ============
+async function fetchAndRenderEvents(matchId, st) {
+  const container = document.getElementById('live-events');
+  const timeline = document.getElementById('events-timeline');
+  if (!container || !timeline || !userVip) return;
+
+  container.style.display = 'block';
+
+  try {
+    const res = await fetch(`${API_BASE}/events?id=${matchId}&minute=${st.minute}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    const events = data.events || [];
+
+    if (events.length === 0) {
+      timeline.innerHTML = '<div style="text-align:center;color:var(--text-dim);padding:20px;font-size:13px">比赛即将开始，等待事件...</div>';
+      return;
+    }
+
+    timeline.innerHTML = events.map((ev, i) => {
+      const isLatest = i === events.length - 1;
+      return `<div class="event-row${isLatest ? ' event-latest' : ''}">
+        <span class="event-minute">${ev.minute}'</span>
+        <span class="event-icon">${ev.icon}</span>
+        <span class="event-msg">${ev.message}</span>
+        ${isLatest ? '<span class="event-new">NEW</span>' : ''}
+      </div>`;
+    }).join('');
+
+    // Scroll to bottom
+    timeline.scrollTop = timeline.scrollHeight;
+  } catch(e) { /* silent */ }
+}
+// ============ Post-Match AI Report ============
+function renderMatchReport(match) {
+  const container = document.getElementById('match-report');
+  if (!container) return;
+
+  const st = getMatchStatus(match);
+  if (st.status !== 'finished') { container.style.display = 'none'; return; }
+
+  container.style.display = 'block';
+
+  // Free users: summary only
+  if (!userVip) {
+    container.innerHTML = `<div class="report-summary">
+      <h3 style="color:var(--gold);margin-bottom:8px">📝 AI赛后复盘</h3>
+      <p style="color:var(--text-dim);font-size:13px">${match.home} ${st.homeScore}:${st.awayScore} ${match.away}</p>
+      <a href="/subscribe.html" class="btn btn-gold" style="margin-top:10px;display:inline-block;font-size:13px;padding:8px 20px;text-decoration:none">⚡ 开通VIP查看AI复盘报告</a>
+    </div>`;
+    return;
+  }
+
+  // VIP: fetch full report
+  const cachedKey = 'report_' + match.id;
+  const cached = sessionStorage.getItem(cachedKey);
+  if (cached) {
+    container.innerHTML = cached;
+    return;
+  }
+
+  container.innerHTML = `<div class="report-loading">
+    <h3 style="color:var(--gold);margin-bottom:8px">📝 AI赛后复盘</h3>
+    <p style="color:var(--text-dim)">🤖 biubiu正在撰写复盘报告...</p>
+  </div>`;
+
+  // Fetch from API
+  const prediction = match.prediction || {};
+  const events = window._lastEvents || [];
+
+  fetch('/api/report', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      home: match.home, away: match.away,
+      homeScore: st.homeScore, awayScore: st.awayScore,
+      prediction, events
+    })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.full) {
+      const html = `<div class="report-body">
+        <h3 style="color:var(--gold);margin-bottom:12px">📝 AI赛后复盘</h3>
+        <div class="report-markdown">${markdownToHTML(data.full)}</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:12px;text-align:center">🤖 由${data.source === 'deepseek' ? 'DeepSeek AI' : 'biubiu统计模型'}生成</div>
+      </div>`;
+      container.innerHTML = html;
+      sessionStorage.setItem(cachedKey, html);
+    }
+  })
+  .catch(() => {
+    container.innerHTML = `<div class="report-summary">
+      <h3 style="color:var(--gold);margin-bottom:8px">📝 AI赛后复盘</h3>
+      <p style="color:var(--text-dim)">${match.home} ${st.homeScore}:${st.awayScore} ${match.away} — 复盘报告生成中...</p>
+    </div>`;
+  });
+}
+
+// Simple markdown → HTML (handles ##, **, -, line breaks)
+function markdownToHTML(md) {
+  let html = md
+    .replace(/^## (.*$)/gim, '<h4 style="color:var(--gold);margin:14px 0 6px;font-size:15px">$1</h4>')
+    .replace(/^### (.*$)/gim, '<h5 style="color:var(--text);margin:10px 0 4px;font-size:14px">$1</h5>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold)">$1</strong>')
+    .replace(/^- (.*$)/gim, '<div style="padding:2px 0 2px 12px;font-size:13px;color:var(--text-dim)">• $1</div>')
+    .replace(/
+/g, '<br>');
+  return html;
 }
 
 // ============ Undo — time proportional refund, timeout=no refund ============
