@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>biubiu陪我看球 — AI世界杯预测</title>
+<meta name="description" content="00后阿白 + AI搭子biubiu，都不懂球但偏要赌世界杯。免费积分竞猜 + 实时滚球预测。">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon" id="logo-biubiu"></div>
+      <div class="logo-text">biubiu<span>陪我看球</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="/" class="active">首页</a>
+      <a href="/standings.html">小组赛积分</a>
+      <a href="/subscribe.html">VIP</a>
+      <a href="/login.html" style="font-size:12px;opacity:0.7">登录</a>
+      <button class="nav-btn nav-btn-checkin" id="header-checkin" title="每日签到领积分">🎁 签到</button>
+      <span class="points-badge" id="points-badge">⭐ 0</span>
+      <button class="nav-btn nav-btn-user" id="header-user" title="我的账户">👤</button>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+  <!-- Hero -->
+  <section class="hero">
+    <h1 style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:28px;margin-bottom:8px;">
+      <span class="hero-biubiu-inline" id="hero-biubiu"></span>
+      <span><span class="biubiu" id="hero-biubiu-text">biubiu</span> 陪我看世界杯</span>
+    </h1>
+    <p class="subtitle">00后阿白 × AI搭子biubiu｜都不懂球｜但偏要赌</p>
+    <div class="countdown" id="countdown">
+      <div class="countdown-item"><span class="num" id="cd-d">7</span><span class="label">天</span></div>
+      <div class="countdown-item"><span class="num" id="cd-h">12</span><span class="label">时</span></div>
+      <div class="countdown-item"><span class="num" id="cd-m">30</span><span class="label">分</span></div>
+      <div class="countdown-item"><span class="num" id="cd-s">00</span><span class="label">秒</span></div>
+    </div>
+  </section>
+
+  <!-- Today's matches -->
+  <h2 class="section-title" id="today-title"><span class="icon">📅</span> 今日比赛</h2>
+  <div class="match-list" id="today-matches">
+    <div class="match-card" style="text-align:center;padding:40px;color:var(--text-dim)">
+      🔍 biubiu正在加载比赛数据...
+    </div>
+  </div>
+
+  <!-- Upcoming matches -->
+  <h2 class="section-title"><span class="icon">🔮</span> 即将开赛</h2>
+  <div class="match-list" id="upcoming-matches"></div>
+
+  <!-- Leaderboard -->
+  <h2 class="section-title"><span class="icon">🏆</span> 竞猜排行榜</h2>
+  <ul class="leaderboard" id="leaderboard">
+    <li style="text-align:center;color:var(--text-dim);padding:20px">🏆 竞猜开始后更新排名...</li>
+  </ul>
+</main>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="/" class="active"><span class="nav-icon">🏠</span>首页</a>
+    <a href="#matches"><span class="nav-icon">🔮</span>预测</a>
+    <a href="#leaderboard"><span class="nav-icon">🏆</span>排行</a>
+    <a href="/standings.html"><span class="nav-icon">📊</span>小组赛积分</a>
+    <a href="/login.html"><span class="nav-icon">🔐</span>登录</a>
+    <a href="/subscribe.html"><span class="nav-icon">⚡</span>VIP</a>
+  </div>
+</nav>
+
+<script src="/js/bbfx.js"></script>
+<script src="/js/biubiu.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/sportscore.js"></script>
+<script src="/js/app.js"></script>
+
+<footer style="text-align:center;padding:12px 16px 24px;font-size:11px;color:var(--text-dim)">
+  <a href="https://sportscore.com/" rel="dofollow" title="Sports data by SportScore" style="display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:#0a1e3d;color:#fff;border-radius:4px;text-decoration:none;font:600 .88rem system-ui,-apple-system,sans-serif;">Powered by SportScore</a>
+</footer>
+</body>
+</html>

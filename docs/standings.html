@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>小组积分 — biubiu陪我看球</title>
+<meta name="description" content="2026世界杯48队12组积分榜，实时更新">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon" id="logo-biubiu"></div>
+      <div class="logo-text">biubiu<span>陪我看球</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="/">首页</a>
+      <a href="/standings.html" class="active">小组赛积分</a>
+      <a href="/subscribe.html">VIP</a>
+      <a href="/login.html" style="font-size:12px;opacity:0.7">登录</a>
+      <button class="nav-btn nav-btn-checkin" id="header-checkin" title="每日签到领积分">🎁 签到</button>
+      <span class="points-badge" id="points-badge">⭐ 0</span>
+      <button class="nav-btn nav-btn-user" id="header-user" title="我的账户">👤</button>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+  <section class="hero" style="padding:20px 24px">
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px">
+      <div id="standings-biubiu"></div>
+      <h1 style="font-size:24px;margin:0">📊 小组<span class="biubiu">积分榜</span></h1>
+    </div>
+    <p class="subtitle">48支球队 · 12个小组 · 前2名晋级32强</p>
+    <div style="margin-top:8px">
+      <span style="font-size:11px;background:rgba(46,204,113,0.15);color:var(--green-light);padding:3px 10px;border-radius:12px">🟢 绿色行 = 晋级区</span>
+      <span style="font-size:11px;color:var(--text-dim);margin-left:8px">⏳ 数据随比赛实时更新</span>
+      <a href="/subscribe.html" class="btn btn-gold" style="font-size:12px;padding:6px 16px;margin-top:12px;display:inline-flex">⚡ 开通VIP看实时预测</a>
+    </div>
+  </section>
+
+  <div id="standings-container"></div>
+</main>
+
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="/"><span class="nav-icon">🏠</span>首页</a>
+    <a href="/standings.html" class="active"><span class="nav-icon">📊</span>小组赛积分</a>
+    <a href="/login.html"><span class="nav-icon">🔐</span>登录</a>
+    <a href="/subscribe.html"><span class="nav-icon">⚡</span>VIP</a>
+  </div>
+</nav>
+
+<script src="/js/bbfx.js"></script>
+<script src="/js/biubiu.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/sportscore.js"></script>
+<script src="/js/app.js"></script>
+<script src="/standings.js"></script>
+
+<footer style="text-align:center;padding:12px 16px 24px;font-size:11px;color:var(--text-dim)">
+  <a href="https://sportscore.com/" rel="dofollow" title="Sports data by SportScore" style="display:inline-flex;align-items:center;gap:6px;padding:6px 10px;background:#0a1e3d;color:#fff;border-radius:4px;text-decoration:none;font:600 .88rem system-ui,-apple-system,sans-serif;">Powered by SportScore</a>
+</footer>
+</body>
+</html>
